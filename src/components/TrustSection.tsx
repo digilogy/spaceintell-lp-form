@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useInView, animate, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { tenantLogos } from "@/data/logos";
 import { trustStats } from "@/data/stats";
 
@@ -158,7 +159,7 @@ export default function TrustSection() {
                 animation-play-state: paused;
               }
             `}</style>
-            
+
             {tenantLogos.map((cat, idx) => {
               // Duplicate the array multiple times to ensure the marquee never runs out of content
               const repeatedCompanies = [...cat.companies, ...cat.companies, ...cat.companies, ...cat.companies];
@@ -168,26 +169,26 @@ export default function TrustSection() {
                 <div key={cat.category} className="flex flex-col relative w-full overflow-hidden">
                   <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-paper to-transparent z-10 pointer-events-none" />
                   <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-paper to-transparent z-10 pointer-events-none" />
-                  
+
                   <div className="mb-4 md:mb-6 pl-4 md:pl-8 flex items-center gap-4 relative z-20">
-                     <h4 className="text-[13px] md:text-[15px] font-bold tracking-[0.15em] uppercase text-ink/70">
-                       {cat.category}
-                     </h4>
-                     <div className="h-px bg-line flex-1 max-w-[200px]" />
+                    <h4 className="text-[13px] md:text-[15px] font-bold tracking-[0.15em] uppercase text-ink/70">
+                      {cat.category}
+                    </h4>
+                    <div className="h-px bg-line flex-1 max-w-[200px]" />
                   </div>
-                  
+
                   <div className={`flex w-max ${isLeft ? 'animate-marquee-left' : 'animate-marquee-right'} pause-on-hover`}>
                     {repeatedCompanies.map((company, cIdx) => {
-                      const initials = company.split(/[\s/()]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join("");
                       return (
-                        <div key={`${company}-${cIdx}`} className="flex items-center group cursor-default px-2 md:px-3">
-                          <div className="border border-line bg-[#FAF8F4] pl-2 pr-6 md:pr-8 py-2 rounded-[2px] transition-all duration-500 group-hover:border-amber group-hover:shadow-md flex items-center gap-4">
-                            <div className="w-[36px] h-[36px] shrink-0 bg-ink rounded-[2px] flex items-center justify-center text-paper font-semibold tracking-wider text-[14px] transition-colors duration-500 group-hover:bg-amber group-hover:text-ink">
-                              {initials}
-                            </div>
-                            <span className="text-[14px] md:text-[16px] font-semibold text-ink/90 tracking-wide whitespace-nowrap transition-colors duration-500 group-hover:text-amber">
-                              {company}
-                            </span>
+                        <div key={`${company.name}-${cIdx}`} className="flex items-center group cursor-default px-2 md:px-3">
+                          <div className="border border-line bg-white px-4 md:px-6 py-2 rounded-[2px] transition-all duration-500 group-hover:border-amber group-hover:shadow-md flex items-center justify-center min-w-[160px] md:min-w-[200px] h-[70px] md:h-[90px]">
+                            <Image
+                              src={company.image}
+                              alt={company.name}
+                              width={160}
+                              height={60}
+                              className="object-contain max-h-[35px] md:max-h-[50px] w-auto  transition-all duration-500"
+                            />
                           </div>
                         </div>
                       );
