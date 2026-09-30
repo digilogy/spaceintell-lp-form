@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
       
       const query = `
         INSERT INTO leads 
-        (name, email, company, designation, phone, facility_type, engagement_model, area_requirement, message, utm_source, utm_medium, utm_campaign, utm_name) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (name, email, company, designation, phone, facility_type, engagement_model, area_requirement, message, utm_source, utm_medium, utm_campaign, utm_name, custom_metadata) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
       
       const values = [
@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
         body.utm_source || null,
         body.utm_medium || null,
         body.utm_campaign || null,
-        body.utm_name || null
+        body.utm_name || null,
+        body.custom_metadata ? JSON.stringify(body.custom_metadata) : null
       ];
       
       await pool.execute(query, values);

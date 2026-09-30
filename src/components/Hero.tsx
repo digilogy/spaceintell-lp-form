@@ -115,12 +115,22 @@ export default function Hero() {
     setSubmitting(true);
     try {
       const urlParams = new URLSearchParams(window.location.search);
+      
+      const custom_metadata: Record<string, string> = {};
+      const standardKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_name", "utm_content", "utm_term", "success"];
+      for (const [key, value] of Array.from(urlParams.entries())) {
+        if (!standardKeys.includes(key)) {
+          custom_metadata[key] = value;
+        }
+      }
+
       const payload = {
         ...formData,
         utm_source: urlParams.get("utm_source") || "Direct",
         utm_medium: urlParams.get("utm_medium") || "Website",
         utm_campaign: urlParams.get("utm_campaign") || "Digi_Landing_Page",
-        utm_name: urlParams.get("utm_name") || "Hero_Form"
+        utm_name: urlParams.get("utm_name") || "Hero_Form",
+        custom_metadata
       };
 
       const res = await fetch("/api/enquiry", {

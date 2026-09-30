@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle2, ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -67,6 +67,15 @@ export default function ConversionSection() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("success") === "true") {
+        setSuccess(true);
+      }
+    }
+  }, []);
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name) newErrors.name = "Required";
@@ -104,12 +113,24 @@ export default function ConversionSection() {
     setSubmitting(true);
     try {
       const urlParams = new URLSearchParams(window.location.search);
+      
+      const custom_metadata: Record<string, string> = {};
+      const standardKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_name", "utm_content", "utm_term", "success"];
+      for (const [key, value] of Array.from(urlParams.entries())) {
+        if (!standardKeys.includes(key)) {
+          custom_metadata[key] = value;
+        }
+      }
+
       const payload = {
         ...formData,
-        utm_source: urlParams.get("utm_source"),
-        utm_medium: urlParams.get("utm_medium"),
-        utm_campaign: urlParams.get("utm_campaign"),
-        utm_name: urlParams.get("utm_name")
+        utm_source: urlParams.get("utm_source") || "Organic",
+        utm_medium: urlParams.get("utm_medium") || "Website",
+        utm_campaign: urlParams.get("utm_campaign") || "Landing Page",
+        utm_name: urlParams.get("utm_name") || "Enquiry Form",
+        utm_content: urlParams.get("utm_content") || "",
+        utm_term: urlParams.get("utm_term") || "",
+        custom_metadata
       };
 
       const res = await fetch("/api/enquiry", {
@@ -117,17 +138,26 @@ export default function ConversionSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Server error");
-      setSuccess(true);
-      if (typeof window !== "undefined" && (window as any).gtag) {
-        (window as any).gtag("event", "generate_lead", {
-          event_category: "form",
-          facility_type: formData.facilityType,
-          engagement_model: formData.model,
-        });
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      
+      try {
+        if (typeof window !== "undefined") {
+          if ((window as any).gtag) {
+            (window as any).gtag("event", "generate_lead", {
+              event_category: "form",
+              facility_type: formData.facilityType,
+              engagement_model: formData.model,
+            });
+          }
+          window.location.href = "/thank-you";
+        }
+      } catch (err) {
+        console.warn("Non-critical error during success tracking:", err);
+        setSuccess(true);
       }
-    } catch {
-      alert("Something went wrong. Please try again or call us directly.");
+      
+    } catch (err: any) {
+      console.error("[FORM SUBMISSION ERROR]", err);
     } finally {
       setSubmitting(false);
     }
