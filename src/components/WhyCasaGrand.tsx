@@ -53,11 +53,11 @@ export default function WhyCasaGrand() {
           </div>
 
           <p className="text-[28px] md:text-[36px] lg:text-[42px] font-light text-ink leading-[1.2] tracking-tight text-balance">
-            The industrial vertical of the Casagrand Group — bringing the execution discipline of 88M+ sq. ft. of delivery to South India’s premier manufacturing corridors.
+            The industrial vertical of the Casagrand Group - bringing the execution discipline of 12 industrial parks to South India’s premier manufacturing corridors.
           </p>
 
           <p className="text-[16px] md:text-[18px] text-steel font-light leading-relaxed">
-            Facilities delivered for <strong className="font-medium text-ink">Pegatron, VinFast, Royal Enfield, BYD,</strong> and 25+ other occupants. Every park is planned, delivered and managed under one framework since 2015.
+            Facilities delivered for <strong className="font-medium text-ink">Pegatron, VinFast, Royal Enfield, BYD,</strong> and 25+ other occupants. Every park has been planned, delivered and managed under one framework since 2014.
           </p>
         </motion.div>
       </div>

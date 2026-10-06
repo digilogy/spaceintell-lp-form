@@ -1,13 +1,13 @@
 export const heroStats = [
-  { value: "6M+",    label: "Sq. ft. industrial delivered" },
-  { value: "10+",    label: "Integrated industrial parks" },
-  { value: "1,000+", label: "Acres under development" },
-  { value: "30+",    label: "Projects completed" },
+  { value: "12", label: "Industrial Parks" },
+  { value: "17 Million", label: "Sq. Ft. Leasable Area" },
+  { value: "549", label: "Acres Developed" },
+  { value: "25,000 Sq. Ft.", label: "Industrial Spaces Starting At" },
 ];
 
 export const trustStats = [
-  { value: "30+",       label: "Projects completed since 2015" },
-  { value: "6M+",       label: "Sq. ft. industrial delivered" },
-  { value: "₹3,000Cr+", label: "Leased asset value" },
-  { value: "5",         label: "States across South India" },
+  { value: "12", label: "Industrial Parks" },
+  { value: "17 Million", label: "Sq. Ft. Leasable Area" },
+  { value: "549", label: "Acres Developed" },
+  { value: "25,000 Sq. Ft.", label: "Industrial Spaces Starting At" },
 ];

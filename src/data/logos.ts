@@ -24,8 +24,8 @@ export const tenantLogos: LogoCategory[] = [
     category: "Electronics & Technology",
     companies: [
       { name: "Pegatron", image: "/asset/Pegatron.png" },
-      { name: "Hitachi ABB", image: "/asset/Hitachi ABB.png" },
-      { name: "NCR", image: "/asset/Hitachi ABB(1).png" }, // Using Hitachi ABB(1) for NCR if applicable, or fallback
+      { name: "Hitachi ABB", image: "/asset/Hitachi ABB(1).png" },
+      { name: "NCR", image: "/asset/NCR_logo_color.svg.webp" }, // Using Hitachi ABB(1) for NCR if applicable, or fallback
       { name: "Sercomm", image: "/asset/Sercomm.png" },
       { name: "Wangda Technologies", image: "/asset/Wangda Technologies.png" },
       { name: "HRS (Hirose)", image: "/asset/HRS (Hirose).png" },

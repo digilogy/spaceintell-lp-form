@@ -115,7 +115,7 @@ export default function Hero() {
     setSubmitting(true);
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      
+
       const custom_metadata: Record<string, string> = {};
       const standardKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_name", "utm_content", "utm_term", "success"];
       for (const [key, value] of Array.from(urlParams.entries())) {
@@ -235,25 +235,43 @@ export default function Hero() {
               </motion.div>
 
               {/* Desktop Stats (Moved to Left Column) */}
-              <div className="hidden md:grid grid-cols-2 gap-x-6 gap-y-10 mt-12 lg:mt-16 w-full max-w-[500px]">
-                {heroStats.map((stat: { value: string; label: string }, i: number) => {
-                  return (
+              <div className="hidden md:flex flex-col gap-6 mt-10 lg:mt-14 w-full max-w-[640px]">
+                {/* Top 3 items: Spaced out cleanly across full width */}
+                <div className="flex flex-row items-start justify-between gap-8 lg:gap-10">
+                  {heroStats.slice(0, 3).map((stat: { value: string; label: string }, i: number) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.8 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.8, delay: 0.8 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                       className="flex flex-col items-start"
                     >
-                      <span className="text-[28px] lg:text-[40px] font-bold text-amber leading-none tracking-tight drop-shadow-lg">
+                      <span className="text-[26px] lg:text-[34px] font-bold text-amber leading-none tracking-tight drop-shadow-lg">
                         {stat.value}
                       </span>
-                      <span className="text-[10px] md:text-[11px] font-semibold text-white/90 uppercase mt-2 text-balance drop-shadow-md">
+                      <span className="text-[10px] lg:text-[11px] font-semibold text-white/90 uppercase mt-2 whitespace-nowrap drop-shadow-md">
                         {stat.label}
                       </span>
                     </motion.div>
-                  );
-                })}
+                  ))}
+                </div>
+
+                {/* 4th item single line highlighted & centered */}
+                {heroStats.length > 3 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                    className="pt-4 flex items-center justify-center w-full text-center"
+                  >
+                    <span className="text-[11px] lg:text-[13px] font-semibold text-white/90 uppercase tracking-wider whitespace-nowrap drop-shadow-md flex items-center">
+                      <span className="text-amber font-bold text-[15px] lg:text-[18px] mr-2 drop-shadow-lg">
+                        {heroStats[3].value}
+                      </span>
+                      <span>{heroStats[3].label}</span>
+                    </span>
+                  </motion.div>
+                )}
               </div>
             </div>
 
@@ -402,25 +420,48 @@ export default function Hero() {
       </section>
 
       {/* Mobile Stats Strip (Rendered sequentially below Hero) */}
-      <div className="md:hidden w-full bg-ink py-12 px-6 border-b border-white/5 relative z-20">
-        <div className="grid grid-cols-2 gap-x-4 gap-y-8 max-w-sm mx-auto">
-          {heroStats.map((stat: { value: string; label: string }, i: number) => (
+      <div className="md:hidden w-full bg-ink py-8 px-4 border-b border-white/5 relative z-20">
+        <div className="flex flex-col gap-6 max-w-md mx-auto">
+          {/* Top 3 Stats in a clean 3-column row */}
+          <div className="grid grid-cols-3 gap-2 text-center">
+            {heroStats.slice(0, 3).map((stat: { value: string; label: string }, i: number) => (
+              <motion.div
+                key={`mob-strip-${i}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+                className="flex flex-col items-center px-1"
+              >
+                <span className="text-[22px] sm:text-[26px] font-bold text-amber leading-none tracking-tight">
+                  {stat.value}
+                </span>
+                <span className="text-[9px] sm:text-[10px] font-semibold text-white/70 uppercase mt-2 leading-tight">
+                  {stat.label}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* 4th Stat: Single Line Highlighted */}
+          {heroStats.length > 3 && (
             <motion.div
-              key={`mob-strip-${i}`}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-              className="flex flex-col items-start"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              className="pt-4 flex justify-center text-center"
             >
-              <span className="text-[32px] font-bold text-amber leading-none tracking-tight">
-                {stat.value}
-              </span>
-              <span className="text-[10px] font-semibold text-white/60 uppercase mt-2 text-balance leading-relaxed">
-                {stat.label}
-              </span>
+              <div className="inline-flex items-center gap-1.5 px-4 py-2">
+                <span className="text-[12px] sm:text-[13px] font-bold text-amber">
+                  {heroStats[3].value}
+                </span>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-white/80 uppercase tracking-wider">
+                  {heroStats[3].label}
+                </span>
+              </div>
             </motion.div>
-          ))}
+          )}
         </div>
       </div>
     </>
