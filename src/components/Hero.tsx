@@ -265,10 +265,10 @@ export default function Hero() {
                     className="pt-4 flex items-center justify-center w-full text-center"
                   >
                     <span className="text-[11px] lg:text-[13px] font-semibold text-white/90 uppercase tracking-wider whitespace-nowrap drop-shadow-md flex items-center">
-                      <span className="text-amber font-bold text-[15px] lg:text-[18px] mr-2 drop-shadow-lg">
+                      <span className="mr-2">{heroStats[3].label}</span>
+                      <span className="text-amber font-bold text-[15px] lg:text-[18px] drop-shadow-lg">
                         {heroStats[3].value}
                       </span>
-                      <span>{heroStats[3].label}</span>
                     </span>
                   </motion.div>
                 )}
@@ -450,14 +450,14 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-              className="pt-4 flex justify-center text-center"
+              className="pt-3 border-t border-white/10 flex justify-center text-center"
             >
-              <div className="inline-flex items-center gap-1.5 px-4 py-2">
-                <span className="text-[12px] sm:text-[13px] font-bold text-amber">
-                  {heroStats[3].value}
-                </span>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-white/80 uppercase tracking-wider">
+              <div className="inline-flex items-center flex-wrap justify-center gap-1.5 px-3 py-1.5 text-center">
+                <span className="text-[11px] sm:text-[12px] font-semibold text-white/90 uppercase tracking-wider">
                   {heroStats[3].label}
+                </span>
+                <span className="text-[15px] sm:text-[17px] font-bold text-amber drop-shadow-md">
+                  {heroStats[3].value}
                 </span>
               </div>
             </motion.div>
