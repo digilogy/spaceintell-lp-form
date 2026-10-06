@@ -1,6 +1,8 @@
 export interface Park {
   id: string;
   name: string;
+  subtitle?: string;
+  highlights?: string;
   location: string;
   corridor: string;
   status: "Ready to Occupy" | "Under Development" | "Upcoming";
@@ -16,7 +18,9 @@ export const parksData: Park[] = [
   // ── Featured parks (editorial 60/40 layout) ──────────────────────────────
   {
     id: "omr",
-    name: "Casagrand Industrial Park — OMR",
+    name: "Casagrand Industrial, OMR",
+    subtitle: "Chennai's IT and electronics corridor",
+    highlights: "Built to Suit · End-to-End Support · Multimodal Connectivity",
     location: "Paiyanur, One Hub, OMR, Chennai",
     corridor: "OMR / Paiyanur",
     status: "Ready to Occupy",
@@ -29,7 +33,9 @@ export const parksData: Park[] = [
   },
   {
     id: "poonamallee",
-    name: "Casagrand Industrial Park — Poonamallee",
+    name: "Casagrand Industrial, Poonamallee",
+    subtitle: "Chennai's western logistics gateway",
+    highlights: "Plug and Play · Easy Truck Access · Ample Parking",
     location: "Poonamallee / Pillaipakkam, Bangalore Highway, Chennai",
     corridor: "Poonamallee / Pillaipakkam",
     status: "Ready to Occupy",
@@ -42,7 +48,9 @@ export const parksData: Park[] = [
   },
   {
     id: "sriperumbudur-1",
-    name: "Casagrand Industrial Park — Sriperumbudur I",
+    name: "Casagrand Industrial, Sriperumbudur – I",
+    subtitle: "At the heart of Chennai's auto and electronics belt",
+    highlights: "Approvals in Place · Safety-First Design · 24/7 Security & Surveillance",
     location: "Pillaipakkam, Sriperumbudur, Chennai",
     corridor: "Sriperumbudur / Sunguvarchatram",
     status: "Under Development",

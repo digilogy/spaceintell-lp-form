@@ -94,12 +94,21 @@ export default function InventoryAcrossCorridor() {
                       </span>
                     </div>
 
-                    <h4 className="text-[32px] md:text-[44px] font-light text-white leading-[1.1] tracking-tight mb-8">
+                    <h4 className="text-[32px] md:text-[44px] font-light text-white leading-[1.1] tracking-tight mb-2">
                       {park.name.replace("Casagrand Industrial Park — ", "")}
                     </h4>
 
-                    <div className="space-y-4 mb-10 text-[14px] text-white/60 font-light">
-                      {park.area && <p><strong className="text-white/90 font-medium">Size:</strong> {park.area}</p>}
+                    {park.subtitle && (
+                      <p className="text-[14px] md:text-[15px] italic text-amber/90 font-light mb-6">
+                        {park.subtitle}
+                      </p>
+                    )}
+
+                    <div className="space-y-3.5 mb-8 text-[14px] text-white/70 font-light">
+                      {park.highlights && (
+                        <p><strong className="text-white/90 font-medium">Highlights:</strong> {park.highlights}</p>
+                      )}
+                      {/* {park.area && <p><strong className="text-white/90 font-medium">Size:</strong> {park.area}</p>} */}
                       {park.type && <p><strong className="text-white/90 font-medium">Type:</strong> {park.type}</p>}
                       {park.industries && <p><strong className="text-white/90 font-medium">Fit for:</strong> {park.industries}</p>}
                     </div>
