@@ -13,5 +13,7 @@ CREATE TABLE IF NOT EXISTS leads (
   utm_medium VARCHAR(255),
   utm_campaign VARCHAR(255),
   utm_name VARCHAR(255),
+  app_tag VARCHAR(50),
+  custom_metadata LONGTEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
