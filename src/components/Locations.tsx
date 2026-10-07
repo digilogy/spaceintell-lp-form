@@ -18,7 +18,7 @@ export default function Locations() {
   return (
     <section id="locations" className="bg-ink py-[150px] overflow-hidden relative">
       {/* Background ambient glow effect based on active state */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-700"
         style={{
           background: active ? "radial-gradient(circle at 50% 50%, rgba(226,166,59,0.03) 0%, transparent 70%)" : "transparent"
@@ -26,7 +26,7 @@ export default function Locations() {
       />
 
       <div className="section-wrap relative z-10">
-        
+
         <div className="flex items-center gap-4 mb-24 opacity-80">
           <span className="w-1.5 h-1.5 rounded-full bg-white" />
           <span className="text-[10px] font-semibold uppercase tracking-widest text-white">
@@ -40,7 +40,7 @@ export default function Locations() {
             const isActive = active === corridor.id;
 
             return (
-              <div 
+              <div
                 key={corridor.id}
                 className="group border-t border-white/10 py-8 md:py-12 cursor-pointer relative"
                 onMouseEnter={() => !isMobile && setActive(corridor.id)}
@@ -49,8 +49,8 @@ export default function Locations() {
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                   {/* Name — Outline Text */}
-                  <h3 
-                    className={`text-[40px] md:text-[80px] font-bold tracking-tight uppercase leading-none transition-all duration-500 break-all sm:break-words
+                  <h3
+                    className={`text-[34px] sm:text-[50px] md:text-[50px] font-bold tracking-tight uppercase leading-tight md:leading-none transition-all duration-500 break-words
                       ${isActive ? 'text-amber' : 'text-outline'}
                     `}
                     style={isActive ? { WebkitTextStroke: "0px transparent" } : {}}
@@ -84,8 +84,8 @@ export default function Locations() {
                           <p className="text-[18px] md:text-[22px] font-light text-white/80 leading-relaxed text-balance">
                             {corridor.highlight}
                           </p>
-                          <a 
-                            href="#inventory" 
+                          <a
+                            href="#inventory"
                             onClick={(e) => e.stopPropagation()}
                             className="inline-block mt-6 text-[11px] font-bold uppercase tracking-[0.15em] text-amber hover:text-white transition-colors"
                           >

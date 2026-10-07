@@ -128,8 +128,9 @@ export default function Hero() {
         ...formData,
         utm_source: urlParams.get("utm_source") || "Direct",
         utm_medium: urlParams.get("utm_medium") || "Website",
-        utm_campaign: urlParams.get("utm_campaign") || "Digi_Landing_Page",
-        utm_name: urlParams.get("utm_name") || "Hero_Form",
+        utm_campaign: urlParams.get("utm_campaign") || "Landing-Page",
+        utm_name: urlParams.get("utm_name") || "Hero-Form",
+        is_qr_scan: urlParams.get("_qr") === "1" || urlParams.get("source") === "qrcode",
         custom_metadata
       };
 

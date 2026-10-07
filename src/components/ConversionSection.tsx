@@ -113,7 +113,7 @@ export default function ConversionSection() {
     setSubmitting(true);
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      
+
       const custom_metadata: Record<string, string> = {};
       const standardKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_name", "utm_content", "utm_term", "success"];
       for (const [key, value] of Array.from(urlParams.entries())) {
@@ -130,6 +130,7 @@ export default function ConversionSection() {
         utm_name: urlParams.get("utm_name") || "Enquiry Form",
         utm_content: urlParams.get("utm_content") || "",
         utm_term: urlParams.get("utm_term") || "",
+        is_qr_scan: urlParams.get("_qr") === "1" || urlParams.get("source") === "qrcode",
         custom_metadata
       };
 
@@ -139,7 +140,7 @@ export default function ConversionSection() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
-      
+
       try {
         if (typeof window !== "undefined") {
           if ((window as any).gtag) {
@@ -155,7 +156,7 @@ export default function ConversionSection() {
         console.warn("Non-critical error during success tracking:", err);
         setSuccess(true);
       }
-      
+
     } catch (err: any) {
       console.error("[FORM SUBMISSION ERROR]", err);
     } finally {

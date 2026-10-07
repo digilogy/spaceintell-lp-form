@@ -45,7 +45,7 @@ export const corridors: Corridor[] = [
   {
     id: "coimbatore",
     city: "Coimbatore",
-    name: "Palladam–Cochin Frontier",
+    name: "Palladam — Cochin Frontier",
     parks: 1,
     highlight: "NH-544. Hub for textile machinery, pump engineering, and renewable energy components.",
   },
