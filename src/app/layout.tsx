@@ -56,6 +56,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })(window, document);
           `}
         </Script>
+        <Script
+          id="google-analytics-src"
+          src="https://www.googletagmanager.com/gtag/js?id=G-47F1KG598T"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-47F1KG598T');
+          `}
+        </Script>
         <AntdRegistry>{children}</AntdRegistry>
       </body>
     </html>
