@@ -148,6 +148,19 @@ export default function Hero() {
           engagement_model: formData.model,
         });
       }
+      try {
+        const pixel = (
+          window as Window & {
+            oaiq?: (...args: unknown[]) => void;
+          }
+        ).oaiq;
+
+        pixel?.("measure", "lead_created", {
+          type: "customer_action"
+        });
+      } catch (error) {
+        console.warn("OpenAI tracking failed", error);
+      }
     } catch {
       alert("Something went wrong. Please try again or call us directly.");
     } finally {
