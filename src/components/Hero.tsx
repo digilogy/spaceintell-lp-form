@@ -124,8 +124,13 @@ export default function Hero() {
         }
       }
 
+      // Shared with the server event so OpenAI counts this lead once
+      const eventId = crypto.randomUUID?.() ?? `lead_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+
       const payload = {
         ...formData,
+        event_id: eventId,
+        page_url: window.location.origin + window.location.pathname,
         utm_source: urlParams.get("utm_source") || "Direct",
         utm_medium: urlParams.get("utm_medium") || "Website",
         utm_campaign: urlParams.get("utm_campaign") || "Landing-Page",
@@ -140,6 +145,7 @@ export default function Hero() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Server error");
+      const { saved } = await res.json();
       setSuccess(true);
       if (typeof window !== "undefined" && (window as any).gtag) {
         (window as any).gtag("event", "generate_lead", {
@@ -155,9 +161,13 @@ export default function Hero() {
           }
         ).oaiq;
 
-        pixel?.("measure", "lead_created", {
-          type: "customer_action"
-        });
+        if (saved) {
+          pixel?.("measure", "lead_created", {
+            type: "customer_action"
+          }, {
+            event_id: eventId
+          });
+        }
       } catch (error) {
         console.warn("OpenAI tracking failed", error);
       }
