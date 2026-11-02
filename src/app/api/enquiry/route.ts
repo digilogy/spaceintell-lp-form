@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { randomUUID } from "crypto";
+import { sendLeadCreatedEvent } from "@/lib/openaiConversions";
 
 export async function POST(request: NextRequest) {
   try {
@@ -120,7 +122,7 @@ export async function POST(request: NextRequest) {
 
     // Prepare all fields for email notification table (standard fields + custom metadata fields)
     const displayFields: Array<[string, any]> = [];
-    const internalKeys = ["custom_metadata", "source_domain", "page_url", "is_qr_scan", "_qr", "appTag", "success"];
+    const internalKeys = ["custom_metadata", "source_domain", "page_url", "is_qr_scan", "_qr", "appTag", "success", "event_id"];
 
     for (const [k, v] of Object.entries(body)) {
       if (!internalKeys.includes(k)) {
@@ -212,7 +214,11 @@ export async function POST(request: NextRequest) {
       console.log(`[SMTP EMAIL SENT SUCCESSFULLY - TAG: ${appTag}]`);
     };
 
+    let leadSaved = true;
+
     if (target === "mysql") {
+      leadSaved = false;
+
       // 1. Try DB insertion (gracefully caught so DB offline/missing col doesn't stop email)
       try {
         const { getDbPool } = await import("@/lib/db");
@@ -287,6 +293,7 @@ export async function POST(request: NextRequest) {
           await pool.execute(query, values);
           console.log("[MYSQL DB INSERT SUCCESS (FALLBACK)]");
         }
+        leadSaved = true;
       } catch (dbErr) {
         console.error("[MYSQL DB ERROR]", dbErr);
       }
@@ -340,7 +347,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ ok: true });
+    if (leadSaved) {
+      const fallbackHost = request.headers.get("x-forwarded-host") || request.headers.get("host");
+
+      await sendLeadCreatedEvent({
+        eventId: typeof body.event_id === "string" && body.event_id ? body.event_id : randomUUID(),
+        sourceUrl: body.page_url || `https://${fallbackHost}/`,
+        oppref: body.custom_metadata?.oppref || request.cookies.get("__oppref")?.value,
+        obref: request.cookies.get("__obref")?.value,
+        email: body.email,
+        phone: body.phone,
+        ipAddress: request.headers.get("x-forwarded-for")?.split(",")[0].trim(),
+        userAgent: request.headers.get("user-agent") || undefined,
+      });
+    }
+
+    return NextResponse.json({ ok: true, saved: leadSaved });
   } catch (err) {
     console.error("[ENQUIRY ERROR]", err);
     return NextResponse.json({ ok: false, error: "Internal server error" }, { status: 500 });
